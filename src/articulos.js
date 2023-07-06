@@ -2,10 +2,10 @@ import fs from "fs/promises"
 class Articulos{
 
     // array vacio--
-    constructor(){
+    constructor(path){
 
         // con path enviamos hacia la ubicacion correcta la creacion del archivo json--
-     this.path = './db/${path}.json'
+     this.path = `./db/${path}.json`;
      this.articulos = [];
     }
 
@@ -24,7 +24,7 @@ class Articulos{
         const articulos =JSON.parse(file);
         return articulos;
         }catch(e){
-            await this.#saveArticle([])
+            await this.#saveArticle([]);
         }
     };
 
@@ -57,9 +57,9 @@ class Articulos{
     };
 
     // obtener el articulo mediante su id--
-    async getArticuloById(idArticulo) {
+    async getArticuloById( id ) {
         const articulos = await this.getArticulos();
-        const articulo = articulos.find((articles) => articles.id === idArticulo)
+        const articulo = articulos.find((articles) => articles.id === id )
         return articulo;
       }
 }
