@@ -30,9 +30,17 @@ class Articulos{
 
     // creacion del articulo--
     // la funcion pasa a ser asincrona--
-    agregarArticulo = async (titulo, descripcion, precio, imagen, stock,) =>{
+    // reconstruccion del articulo, lo convertimos en objeto--
+    agregarArticulo = async (artic) =>{
+        const { 
+            titulo,
+            descripcion,
+            precio,
+            imagen,
+            stock,      
+        } = artic
+        
         try {
-
     // dependencia de ID  a traves del archivo json
         const articulos = await this.getArticulos();    
         const articulo = {
@@ -42,7 +50,6 @@ class Articulos{
             precio,
             imagen,
             stock,
-        
         };
         
         this.articulos = articulos;
@@ -56,12 +63,30 @@ class Articulos{
     }
     };
 
-    // obtener el articulo mediante su id--
+    // FILTRAR el articulo mediante su id--
     async getArticuloById( id ) {
         const articulos = await this.getArticulos();
-        const articulo = articulos.find((articles) => articles.id === id )
+        const articulo = articulos.find((articles) => articles.id == id );
         return articulo;
       }
+
+    // EDITAR el articulo mediante su id-- 
+    async editArticuloById(id, articulo){
+        const articulos = await this.getArticulos();
+        const articuloIndex = articulos.find((articulo) => articulo.id == id);
+        if (articuloIndex == -1) return false;
+
+        articulos[articuloIndex] = {...articulos[articuloIndex], ...articulo};
+
+        await this.#saveArticle(articulos);
+    }
+
+    // ELIMINAR el articulo mediante su id-- 
+    async deleteArticuloById(id){
+        const articulos = await this.getArticulos();
+        const newArticulos = articulos.filter(articles => articles.id != id);
+        await this.#saveArticle(newArticulos);
+    }
 }
 
 export default Articulos
