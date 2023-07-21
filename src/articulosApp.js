@@ -1,5 +1,6 @@
 import express from "express";
 import articulosRout from "./routes/articulosRout.js";
+import carritosRout from "./routes/carritosRout.js";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/articulo", articulosRout);
+app.use("/api/carrito", carritosRout);
 
 // servidor corriendo--
 app.listen(8080, () => {
