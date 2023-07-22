@@ -4,7 +4,7 @@ const carritosApp = new Carritos("carritos");
 const carritosRout = Router();
 
 
-// se obtienen todos los articulos--
+// se obtienen todos los productos--
 carritosRout.get("/", async (req, res) =>{
     try{
     const carritos = await carritosApp.getCarritos();
@@ -14,7 +14,7 @@ carritosRout.get("/", async (req, res) =>{
     }
 });
 
-// FILTRAR los articulos por ID--
+// FILTRAR los carritos por ID--
 carritosRout.get("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
@@ -26,7 +26,7 @@ carritosRout.get("/:id", async (req, res) =>{
         }
 });
 
-// EDITAR los articulos--
+// EDITAR los productos--
 carritosRout.put("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
@@ -39,7 +39,7 @@ carritosRout.put("/:id", async (req, res) =>{
         }
 });
 
-// ELIMINAR los articulos--
+// ELIMINAR los productos--
 carritosRout.delete("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
@@ -51,7 +51,7 @@ carritosRout.delete("/:id", async (req, res) =>{
         }
 });
 
-// metodo POST AGREGAR articulo--
+// metodo POST AGREGAR producto--
 carritosRout.post("/", async (req, res) => {
     const body = req.body;
     try{
@@ -63,5 +63,17 @@ carritosRout.post("/", async (req, res) => {
     }    
 })
 
+
+
+carritosRout.post('/:id/product/:id', async (req, res) => {
+    const products = req.products;
+    try{
+        const result = await carritosApp.agregarArray(products);
+        res.send(result);
+    } catch (e){
+        console.log(e);
+        res.status(502).send({ error: true })   
+    }    
+  });
 
 export default carritosRout;
