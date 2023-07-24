@@ -31,20 +31,23 @@ class Carritos{
     // creacion del articulo--
     // la funcion pasa a ser asincrona--
     // reconstruccion del articulo, lo convertimos en objeto--
-    agregarArray= async (cart) =>{
-        const { 
-            products,     
-        } = cart
+    async agregarArray(cart){
         
         try {
     // dependencia de ID  a traves del archivo json
-        const carritos = await this.getCarritos();    
+        const carritos = await this.getCarritos();
+        const lastCarritoId = carritos.length === 0 ? 0 : carritos[carritos.length - 1].id;
+
         const carrito = {
-            id: carritos.length == 0 ? 1 : carritos[carritos.length - 1].id +1,
-            products,
-        };
+      id: lastCarritoId + 1,
+      products: [
+        {
+          cid: cart.cid || 0,
+          cantidad: cart.cantidad || 0,
+        },
+      ],
+    };
         
-        this.carritos = carritos;
         carritos.push(carrito);
 
         await this.#saveCart(carritos);
@@ -54,6 +57,7 @@ class Carritos{
         console.log(e);
     }
     };
+    
 
     // FILTRAR el articulo mediante su id--
     async getCarritoById( id ) {
@@ -85,8 +89,7 @@ export default Carritos
 
 
 const carritos = new Carritos("carritos");
-await carritos.agregarArray([]);
-await carritos.agregarArray([]);
+await carritos.agregarArray({ cid: 1, cantidad: 5 });
 
 // getArticulos async nos permite utilizar get con la info sin necesidad de hacer un llamado
 console.log(await carritos.getCarritos());

@@ -65,15 +65,15 @@ carritosRout.post("/", async (req, res) => {
 
 
 
-carritosRout.post('/:id/product/:id', async (req, res) => {
-    const products = req.products;
-    try{
-        const result = await carritosApp.agregarArray(products);
+carritosRout.get('/:id/product/:cid', async (req, res) => {
+    const { cid, cantidad } = req.body;
+  
+    try {
+        const result = await carritosApp.agregarArray({ cid: cid, cantidad: cantidad });
         res.send(result);
-    } catch (e){
-        console.log(e);
-        res.status(502).send({ error: true })   
-    }    
+    } catch (e) {
+      console.log(e);
+      res.status(502).send({ error: true });
+    }
   });
-
 export default carritosRout;
