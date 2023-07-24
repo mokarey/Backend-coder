@@ -17,7 +17,7 @@ class Carritos{
         return carts;
     }
 
-    // obtener el array con los articulos--
+    // obtener el array de carritos--
     getCarritos = async () => {
         try{
         const file = await fs.readFile(this.path, "utf8");    
@@ -28,38 +28,26 @@ class Carritos{
         }
     };
 
-    // creacion del articulo--
-    // la funcion pasa a ser asincrona--
-    // reconstruccion del articulo, lo convertimos en objeto--
-    async agregarArray(cart){
-        
-        try {
-    // dependencia de ID  a traves del archivo json
-        const carritos = await this.getCarritos();
-        const lastCarritoId = carritos.length === 0 ? 0 : carritos[carritos.length - 1].id;
+    agregarCarrito = async () => {
 
-        const carrito = {
-      id: lastCarritoId + 1,
-      products: [
-        {
-          cid: cart.cid || 0,
-          cantidad: cart.cantidad || 0,
-        },
-      ],
-    };
-        
-        carritos.push(carrito);
+        // nos aseguramos de mantener la informacion del carrito anterior--
+        let cartsOld = await this.getCarritos();
+        let id = 1;
 
-        await this.#saveCart(carritos);
-        return carrito;
+        // incremeneto del ID en +1--
+        if (cartsOld.length > 0) {
+        const maxId = cartsOld.reduce((max, cartsOld) => (cartsOld.id > max ? cartsOld.id : max), 0);
+        id = maxId + 1;
+        }
 
-    } catch(e){
-        console.log(e);
-    }
+        // creamos el nuevo carrito con el array vacio para los productos--
+        let carritoFull = [{id : id, products : []}, ...cartsOld];
+        await this.#saveCart(carritoFull);
+        return "Agregado correctamente!";
     };
     
 
-    // FILTRAR el articulo mediante su id--
+    // FILTRAR carritos mediante su id--
     async getCarritoById( id ) {
         const carritos = await this.getCarritos();
         const carrito = carritos.find((carts) => carts.id == id );
@@ -77,7 +65,7 @@ class Carritos{
       //  await this.#saveArticle(articulos);
     //}
 
-    // ELIMINAR el articulo mediante su id-- 
+    // ELIMINAR carrito mediante su id-- 
     async deleteCarritoById(id){
         const carritos = await this.getCarritos();
         const newCarritos = carritos.filter(carts => carts.id != id);
@@ -87,10 +75,5 @@ class Carritos{
 
 export default Carritos
 
-
-const carritos = new Carritos("carritos");
-await carritos.agregarArray({ cid: 1, cantidad: 5 });
-
 // getArticulos async nos permite utilizar get con la info sin necesidad de hacer un llamado
-console.log(await carritos.getCarritos());
 

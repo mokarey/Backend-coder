@@ -53,10 +53,8 @@ carritosRout.delete("/:id", async (req, res) =>{
 
 // metodo POST AGREGAR producto--
 carritosRout.post("/", async (req, res) => {
-    const body = req.body;
     try{
-        const result = await carritosApp.agregarArray(body);
-        res.send(result);
+        res.send(await carritosApp.agregarCarrito())
     } catch (e){
         console.log(e);
         res.status(502).send({ error: true })   
