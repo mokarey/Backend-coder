@@ -61,6 +61,7 @@ carritosRout.post("/", async (req, res) => {
     }    
 });
 
+// metodo POST AGREGAR producto dentro de products[]--
 carritosRout.post('/:cid/product/:pid', async (req, res) => {
     let cid = req.params.cid;
     let pid = req.params.pid;

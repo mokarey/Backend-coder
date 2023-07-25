@@ -64,19 +64,38 @@ class Carritos{
         await this.#saveCart(newCarritos);
     }
 
+    // Comprobacion si existe el carrito-- 
     async exist(id) {
         const carritos = await this.getCarritos();
         return carritos.some((carts) => carts.id === id);
     }
 
-    async getArticuloById(iid) {
+    async getArticuloById(id) {
         return await articulosApp.getArticuloById(id);
       }
 
+
+    // AGREGAR productos----- 
     agregarArticuloCarrito = async (cid, pid) =>{
+
+        // Se obtienen los carritos y los filtramos mediante su id para accederlos----- 
         let carritos = await this.getCarritos()
-        let filtrarCarritos = carritos.filter(artic => artic.id == pid) 
-        let carritoFull = [{id:cid, products : [{id:articulosApp.getArticuloById.id, cantidad: 1 }]}, ...filtrarCarritos]
+        let filtrarCarritos = carritos.filter(carts => carts.id != cid) 
+
+        // Se obtienen los carritos y los filtramos mediante su id para accederlos----- 
+        let carrito = await this.getCarritoById(cid);
+
+        // accedemos a los carritos, luego al array products, si el CID coincide con el producto, se incrementa la canridad en +1-- 
+        if (carrito && carrito.products.some((artic) => artic.id === pid)) {
+        let articleCarrito = carrito.products.find((artic) => artic.id === pid);
+        articleCarrito.cantidad++;
+        let carritoFull = [carrito, ...filtrarCarritos];
+        await this.#saveCart(carritoFull);
+        return "Producto sumado correctamente";
+        }
+
+        // finalmente guardamos el producto en el array-- 
+        let carritoFull = [{id:cid, products : [{id:pid, cantidad: 1 }]}, ...filtrarCarritos]
         await this.#saveCart(carritoFull)
         return "Producto agregado exitosamente"
     }
