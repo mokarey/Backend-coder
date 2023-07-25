@@ -62,9 +62,10 @@ carritosRout.post("/", async (req, res) => {
 });
 
 carritosRout.post('/:cid/product/:pid', async (req, res) => {
-    let carritoId = req.params.cid;
-    let articuloId = req.params.pid;
-    res.send(await carritosApp.agregarArticuloCarrito(carritoId, articuloId));
+    let cid = req.params.cid;
+    let pid = req.params.pid;
+    res.send(await carritosApp.agregarArticuloCarrito(cid, pid));
   });
+
 
 export default carritosRout;

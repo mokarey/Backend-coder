@@ -93,8 +93,21 @@ export default Articulos
 
 
 const articulos = new Articulos("articulos");
-await articulos.agregarArticulo("Botines Nike", "Los mejores del mercado", 2499, "imagen-1.jpg", 13,);
-await articulos.agregarArticulo("Botines Puma", "Cómodos y resistentes", 1299, "imagen-2.jpg", 7,);
+await articulos.agregarArticulo({
+    titulo: "Botines Nike",
+    descripcion: "Los mejores del mercado",
+    precio: 2499,
+    imagen: "imagen-1.jpg",
+    stock: 13,
+  });
+  
+  await articulos.agregarArticulo({
+    titulo: "Botines Puma",
+    descripcion: "Cómodos y resistentes",
+    precio: 1299,
+    imagen: "imagen-2.jpg",
+    stock: 7,
+  });
 
 // getArticulos async nos permite utilizar get con la info sin necesidad de hacer un llamado
 console.log(await articulos.getArticulos());

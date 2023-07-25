@@ -53,26 +53,30 @@ class Carritos{
     // FILTRAR carritos mediante su id--
     async getCarritoById( id ) {
         const carritos = await this.getCarritos();
-        const carrito = carritos.find((carts) => carts.id == id );
+        const carrito = carritos.find((carritoFull) => carritoFull.id == id );
         return carrito;
       }
 
     // ELIMINAR carrito mediante su id-- 
     async deleteCarritoById(id){
         const carritos = await this.getCarritos();
-        const newCarritos = carritos.filter(carts => carts.id != id);
+        const newCarritos = carritos.filter(carritoFull => carritoFull.id != id);
         await this.#saveCart(newCarritos);
     }
 
-    async getArticuloById(articuloId) {
-        return await articulosApp.getArticuloById(articuloId);
+    async exist(id) {
+        const carritos = await this.getCarritos();
+        return carritos.some((carts) => carts.id === id);
+    }
+
+    async getArticuloById(iid) {
+        return await articulosApp.getArticuloById(id);
       }
 
-    agregarArticuloCarrito = async (carritoId, articuloId) =>{
-
-        let carritos = await this.#saveCart()
-        let filtrarCarritos = carritos.filter(articles => articles.id != articuloId) 
-        let carritoFull = [{id:carritoId, products : [{id:getArticuloById.id, cantidad: 1 }]}, ...filtrarCarritos]
+    agregarArticuloCarrito = async (cid, pid) =>{
+        let carritos = await this.getCarritos()
+        let filtrarCarritos = carritos.filter(artic => artic.id == pid) 
+        let carritoFull = [{id:cid, products : [{id:articulosApp.getArticuloById.id, cantidad: 1 }]}, ...filtrarCarritos]
         await this.#saveCart(carritoFull)
         return "Producto agregado exitosamente"
     }
