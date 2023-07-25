@@ -59,19 +59,12 @@ carritosRout.post("/", async (req, res) => {
         console.log(e);
         res.status(502).send({ error: true })   
     }    
-})
+});
 
-
-
-carritosRout.get('/:id/product/:cid', async (req, res) => {
-    const { cid, cantidad } = req.body;
-  
-    try {
-        const result = await carritosApp.agregarArray({ cid: cid, cantidad: cantidad });
-        res.send(result);
-    } catch (e) {
-      console.log(e);
-      res.status(502).send({ error: true });
-    }
+carritosRout.post('/:cid/product/:pid', async (req, res) => {
+    let carritoId = req.params.cid;
+    let articuloId = req.params.pid;
+    res.send(await carritosApp.agregarArticuloCarrito(carritoId, articuloId));
   });
+
 export default carritosRout;

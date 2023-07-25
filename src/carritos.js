@@ -1,4 +1,7 @@
-import fs from "fs/promises"
+import fs from "fs/promises";
+import Articulos from "./articulos.js"
+const articulosApp = new Articulos
+
 class Carritos{
 
     // array vacio--
@@ -54,26 +57,26 @@ class Carritos{
         return carrito;
       }
 
-    // EDITAR el articulo mediante su id-- 
-    //async editArticuloById(id, articulo){
-      //  const articulos = await this.getArticulos();
-        //const articuloIndex = articulos.find((articulo) => articulo.id == id);
-        //if (articuloIndex == -1) return false;
-
-        //articulos[articuloIndex] = {...articulos[articuloIndex], ...articulo};
-
-      //  await this.#saveArticle(articulos);
-    //}
-
     // ELIMINAR carrito mediante su id-- 
     async deleteCarritoById(id){
         const carritos = await this.getCarritos();
         const newCarritos = carritos.filter(carts => carts.id != id);
         await this.#saveCart(newCarritos);
     }
+
+    async getArticuloById(articuloId) {
+        return await articulosApp.getArticuloById(articuloId);
+      }
+
+    agregarArticuloCarrito = async (carritoId, articuloId) =>{
+
+        let carritos = await this.#saveCart()
+        let filtrarCarritos = carritos.filter(articles => articles.id != articuloId) 
+        let carritoFull = [{id:carritoId, products : [{id:getArticuloById.id, cantidad: 1 }]}, ...filtrarCarritos]
+        await this.#saveCart(carritoFull)
+        return "Producto agregado exitosamente"
+    }
 }
 
 export default Carritos
-
-// getArticulos async nos permite utilizar get con la info sin necesidad de hacer un llamado
 
