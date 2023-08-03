@@ -1,6 +1,7 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import articulosRout from "./routes/articulosRout.js";
+import articulosViewsRout from "./routes/articulosViewsRout.js";
 import carritosRout from "./routes/carritosRout.js";
 import __dirname from "./dirname.js"
 
@@ -12,12 +13,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "handlebars");
 
-app.get("/", (req, res) => {
-    const { nombre } = req.query;
-    res.render("index", {nombre: nombre});
-})
-
-
 // transforma la informacion-- 
 app.use(express.json());
 
@@ -25,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/articulo", articulosRout);
+app.use("/articulo", articulosViewsRout);
 app.use("/api/carrito", carritosRout);
 
 // servidor corriendo--

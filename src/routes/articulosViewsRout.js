@@ -1,0 +1,67 @@
+import { Router } from "express";
+import Articulos from "../articulos.js";
+const articulosApp = new Articulos("articulos");
+const articulosRout = Router();
+
+
+// se obtienen todos los articulos--
+articulosRout.get("/", async (req, res) =>{
+    try{
+    const articulos = await articulosApp.getArticulos();
+    res.render("articles", { articles: articulos });
+    } catch (e){
+        res.status(502).send({error: true});
+    }
+});
+
+// FILTRAR los articulos por ID--
+articulosRout.get("/:id", async (req, res) =>{
+    try{
+        const { id } = req.params;
+        const articulo = await articulosApp.getArticuloById(id)
+        res.render("articulos", {articulos: articulo});
+        } catch (e){
+            console.log(e);
+            res.status(502).send({ error: true });
+        }
+});
+
+// EDITAR los articulos--
+articulosRout.put("/:id", async (req, res) =>{
+    try{
+        const { id } = req.params;
+        const articulo = req.body
+        const result = await articulosApp.editArticuloById(id, articulo)
+        res.send({update: true });
+        } catch (e){
+            console.log(e);
+            res.status(502).send({ error: true });
+        }
+});
+
+// ELIMINAR los articulos--
+articulosRout.delete("/:id", async (req, res) =>{
+    try{
+        const { id } = req.params;
+        await articulosApp.deleteArticuloById(id)
+        res.send({delete : true});
+        } catch (e){
+            console.log(e);
+            res.status(502).send({ error: true });
+        }
+});
+
+// metodo POST AGREGAR articulo--
+articulosRout.post("/", async (req, res) => {
+    const body = req.body;
+    try{
+        const result = await articulosApp.agregarArticulo(body);
+        res.send(result);
+    } catch (e){
+        console.log(e);
+        res.status(502).send({ error: true })   
+    }    
+})
+
+
+export default articulosRout;
