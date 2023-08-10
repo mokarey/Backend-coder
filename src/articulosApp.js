@@ -10,7 +10,7 @@ const app = express();
 app.engine("handlebars", handlebars());
 
 // seteamos el motor de vistas-- 
-app.set("views", `${__dirname}/views`);
+app.set("views", `${ __dirname }/views`);
 app.set("view engine", "handlebars");
 
 // transforma la informacion-- 

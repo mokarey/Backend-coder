@@ -1,24 +1,24 @@
 import { Router } from "express";
 import Articulos from "../articulos.js";
-const articulosApp = new Articulos("articulos");
-const articulosRout = Router();
+const articulosViewApp = new Articulos("articulos");
+const articulosViewsRout = Router();
 
 
 // se obtienen todos los articulos--
-articulosRout.get("/", async (req, res) =>{
+articulosViewsRout.get("/", async (req, res) =>{
     try{
-    const articulos = await articulosApp.getArticulos();
-    res.render("articles", { articles: articulos });
+    const articulos = await articulosViewApp.getArticulos();
+    res.render("artic", { artic: articulos });
     } catch (e){
         res.status(502).send({error: true});
     }
 });
 
 // FILTRAR los articulos por ID--
-articulosRout.get("/:id", async (req, res) =>{
+articulosViewsRout.get("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
-        const articulo = await articulosApp.getArticuloById(id)
+        const articulo = await articulosViewApp.getArticuloById(id)
         res.render("articulos", {articulos: articulo});
         } catch (e){
             console.log(e);
@@ -27,11 +27,11 @@ articulosRout.get("/:id", async (req, res) =>{
 });
 
 // EDITAR los articulos--
-articulosRout.put("/:id", async (req, res) =>{
+articulosViewsRout.put("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
         const articulo = req.body
-        const result = await articulosApp.editArticuloById(id, articulo)
+        const result = await articulosViewApp.editArticuloById(id, articulo)
         res.send({update: true });
         } catch (e){
             console.log(e);
@@ -40,10 +40,10 @@ articulosRout.put("/:id", async (req, res) =>{
 });
 
 // ELIMINAR los articulos--
-articulosRout.delete("/:id", async (req, res) =>{
+articulosViewsRout.delete("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
-        await articulosApp.deleteArticuloById(id)
+        await articulosViewApp.deleteArticuloById(id)
         res.send({delete : true});
         } catch (e){
             console.log(e);
@@ -52,10 +52,10 @@ articulosRout.delete("/:id", async (req, res) =>{
 });
 
 // metodo POST AGREGAR articulo--
-articulosRout.post("/", async (req, res) => {
+articulosViewsRout.post("/", async (req, res) => {
     const body = req.body;
     try{
-        const result = await articulosApp.agregarArticulo(body);
+        const result = await articulosViewApp.agregarArticulo(body);
         res.send(result);
     } catch (e){
         console.log(e);
@@ -64,4 +64,4 @@ articulosRout.post("/", async (req, res) => {
 })
 
 
-export default articulosRout;
+export default articulosViewsRout;
