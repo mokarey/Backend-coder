@@ -19,7 +19,7 @@ articulosViewsRout.get("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
         const articulo = await articulosViewApp.getArticuloById(id)
-        res.render("articulos", {articulos: articulo});
+        res.render("artic", {articles: articulo});
         } catch (e){
             console.log(e);
             res.status(502).send({ error: true });
