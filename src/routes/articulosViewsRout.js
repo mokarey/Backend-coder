@@ -8,7 +8,7 @@ const articulosViewsRout = Router();
 articulosViewsRout.get("/", async (req, res) =>{
     try{
     const articulos = await articulosViewApp.getArticulos();
-    res.render("artic", { artic: articulos });
+    res.render("home", { articles : articulos });
     } catch (e){
         res.status(502).send({error: true});
     }
