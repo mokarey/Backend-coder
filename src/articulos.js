@@ -70,22 +70,22 @@ export default Articulos;
 
 const articulos = new Articulos("articulos");
 
-(async () => {
-    await articulos.agregarArticulo({
-        titulo: "Botines Nike",
-        descripcion: "Los mejores del mercado",
-        precio: 2499,
-        imagen: "imagen-1.jpg",
-        stock: 13,
-    });
+//(async () => {
+//    await articulos.agregarArticulo({
+//        titulo: "Botines Nike",
+//        descripcion: "Los mejores del mercado",
+//        precio: 2499,
+//        imagen: "imagen-1.jpg",
+//        stock: 13,
+//    });
 
-    await articulos.agregarArticulo({
-        titulo: "Botines Puma",
-        descripcion: "Cómodos y resistentes",
-        precio: 1299,
-        imagen: "imagen-2.jpg",
-        stock: 7,
-    });
+//    await articulos.agregarArticulo({
+//        titulo: "Botines Puma",
+//        descripcion: "Cómodos y resistentes",
+//        precio: 1299,
+//        imagen: "imagen-2.jpg",
+//        stock: 7,
+//    });
 
-    console.log(await articulos.getArticulos());
-    })();
+//    console.log(await articulos.getArticulos());
+//    })();
