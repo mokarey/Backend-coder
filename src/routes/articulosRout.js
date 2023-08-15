@@ -1,24 +1,21 @@
 import { Router } from "express";
 import Articulos from "../articulos.js";
+import io from "../articulosApp.js"
+
 const articulosApp = new Articulos("articulos");
 const articulosRout = Router();
 
 
 // se obtienen todos los articulos--
-articulosRout.get("/", async (req, res) => {
-    try {
-        const articulos = await articulosApp.getArticulos();
-
-        // Emitir los artículos al cliente a través del socket
-        socket.emit("nuevosArticulos", articulos);
-
-        // Redirigir al archivo handlebars para mostrar los artículos en tiempo real
-        res.render("realTimeArticles");
-    } catch (e) {
-        res.status(502).send({ error: true });
+articulosRout.get("/", async (req, res) =>{
+    try{
+    const articulos = await articulosApp.getArticulos();
+    res.send(articulos);
+    io.emit('articulosList', articulos);
+    } catch (e){
+        res.status(502).send({error: true});
     }
 });
-
 
 // FILTRAR los articulos por ID--
 articulosRout.get("/:id", async (req, res) =>{

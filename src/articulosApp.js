@@ -41,5 +41,8 @@ const io = new SocketServer(appServer);
 
 io.on("connection", (socket) => {
     console.log(socket)
+
+    socket.emit("articulosList")
 })
 
+export default io
