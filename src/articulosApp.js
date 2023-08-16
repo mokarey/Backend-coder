@@ -27,16 +27,21 @@ app.use("/api/articulo", articulosRout);
 app.use("/articulo", articulosViewsRout);
 app.use("/api/carrito", carritosRout);
 
+
 // servidor corriendo--
 //app.listen(8080, () => {
 //    console.log("Servidor corriendo.");
 //});
+
+
 app.get("/", (req, res) => {
     res.render("index");
 })
 
 const appServer = app.listen(8080, () => console.log(`Conectado.`));
 
+
+// relaciones socket servidor/cliente
 const io = new SocketServer(appServer);
 
 io.on("connection", (socket) => {

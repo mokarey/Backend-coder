@@ -3,11 +3,10 @@
  console.log("Hola front");
  const socket = io();
 
+ // se inyectan los articulos mediante inner
  socket.on("articulosList", (articulos) => {
-    // Actualiza la lista de artículos en la página con los nuevos datos
-    // Por ejemplo, puedes utilizar DOM manipulation o algún framework de frontend.
     const articlesContainer = document.getElementById("articles-container");
-    articlesContainer.innerHTML = ""; // Limpia el contenedor
+    articlesContainer.innerHTML = ""; 
 
     articulos.forEach((articulo) => {
         const articleDiv = document.createElement("div");
