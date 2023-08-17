@@ -7,13 +7,15 @@ const articulosRout = Router();
 
 
 // se obtienen todos los articulos--
-articulosRout.get("/", async (req, res) =>{
-    try{
-    const articulos = await articulosApp.getArticulos();
-    res.send(articulos);
-    io.emit('articulosList', articulos);
-    } catch (e){
-        res.status(502).send({error: true});
+// se le agrega un emit--
+articulosRout.get("/", async (req, res) => {
+    try {
+        const articulos = await articulosApp.getArticulos();
+        console.log("Articulos obtenidos:", articulos);
+        res.send(articulos);
+        io.emit('articulosList', articulos);
+    } catch (e) {
+        res.status(502).send({ error: true });
     }
 });
 
@@ -43,11 +45,13 @@ articulosRout.put("/:id", async (req, res) =>{
 });
 
 // ELIMINAR los articulos--
+// se le agrega un emit--
 articulosRout.delete("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
         await articulosApp.deleteArticuloById(id)
         res.send({delete : true});
+        io.emit('deleteArticulo', id);
         } catch (e){
             console.log(e);
             res.status(502).send({ error: true });
@@ -55,11 +59,13 @@ articulosRout.delete("/:id", async (req, res) =>{
 });
 
 // metodo POST AGREGAR articulo--
+// se le agrega un emit--
 articulosRout.post("/", async (req, res) => {
     const body = req.body;
     try{
         const result = await articulosApp.agregarArticulo(body);
         res.send(result);
+        io.emit('nuevoArticulo', result)
     } catch (e){
         console.log(e);
         res.status(502).send({ error: true })   
