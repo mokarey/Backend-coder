@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose"
 import fs from "fs/promises"; 
 import { engine } from "express-handlebars";
 import articulosRout from "./routes/articulosRout.js";
@@ -7,6 +8,10 @@ import carritosRout from "./routes/carritosRout.js";
 import __dirname from "./dirname.js";
 import * as path from "path";
 import { Server as SocketServer } from "socket.io";
+
+const URI = mongoose.connect(`mongodb+srv://mosk:Che7813quct@cluster0.l0ndxeg.mongodb.net/?retryWrites=true&w=majority`)
+URI.then(() => console.log("Corriendo."))
+
 
 const app = express();
 app.use(express.static(`${__dirname}/public`));
@@ -40,6 +45,7 @@ app.get("/", (req, res) => {
 })
 
 const appServer = app.listen(8080, () => console.log(`Conectado.`));
+
 
 
 // relaciones socket servidor/cliente

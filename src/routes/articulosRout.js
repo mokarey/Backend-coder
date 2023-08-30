@@ -1,8 +1,9 @@
 import { Router } from "express";
-import Articulos from "../articulos.js";
+import ArticulosManager from "../dao/mongo/articulosManager.js";
+import ArticuloModel from "../dao/model/articulosModel.js";
 import io from "../articulosApp.js"
 
-const articulosApp = new Articulos("articulos");
+const articulosMan = new ArticulosManager("articulos");
 const articulosRout = Router();
 
 
@@ -10,10 +11,8 @@ const articulosRout = Router();
 // se le agrega un emit--
 articulosRout.get("/", async (req, res) => {
     try {
-        const articulos = await articulosApp.getArticulos();
-        console.log("Articulos obtenidos:", articulos);
-        res.send(articulos);
-        io.emit('articulosList', articulos);
+        const articulos = await articulosMan.getArticulos();
+        res.send({articulos});
     } catch (e) {
         res.status(502).send({ error: true });
     }
@@ -23,7 +22,7 @@ articulosRout.get("/", async (req, res) => {
 articulosRout.get("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
-        const articulo = await articulosApp.getArticuloById(id)
+        const articulo = await articulosMan.getArticuloById(id)
         res.send(articulo);
         } catch (e){
             console.log(e);
@@ -36,7 +35,7 @@ articulosRout.put("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
         const articulo = req.body
-        const result = await articulosApp.editArticuloById(id, articulo)
+        const result = await articulosMan.editArticuloById(id, articulo)
         res.send({update: true });
         } catch (e){
             console.log(e);
@@ -49,7 +48,7 @@ articulosRout.put("/:id", async (req, res) =>{
 articulosRout.delete("/:id", async (req, res) =>{
     try{
         const { id } = req.params;
-        await articulosApp.deleteArticuloById(id)
+        await articulosMan.deleteArticuloById(id)
         res.send({delete : true});
         io.emit('deleteArticulo', id);
         } catch (e){
@@ -63,7 +62,7 @@ articulosRout.delete("/:id", async (req, res) =>{
 articulosRout.post("/", async (req, res) => {
     const body = req.body;
     try{
-        const result = await articulosApp.agregarArticulo(body);
+        const result = await articulosMan.agregarArticulo(body);
         res.send(result);
         io.emit('nuevoArticulo', result)
     } catch (e){
