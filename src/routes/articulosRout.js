@@ -1,9 +1,7 @@
 import { Router } from "express";
 import ArticulosManager from "../dao/mongo/articulosManager.js";
-import ArticuloModel from "../dao/model/articulosModel.js";
-import io from "../articulosApp.js"
 
-const articulosMan = new ArticulosManager("articulos");
+const articulosMan = new ArticulosManager();
 const articulosRout = Router();
 
 
@@ -12,7 +10,8 @@ const articulosRout = Router();
 articulosRout.get("/", async (req, res) => {
     try {
         const articulos = await articulosMan.getArticulos();
-        res.send({articulos});
+        console.log("Artículos recuperados:", articulos);
+        res.send(articulos);
     } catch (e) {
         res.status(502).send({ error: true });
     }

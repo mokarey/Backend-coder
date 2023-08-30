@@ -9,8 +9,7 @@ import __dirname from "./dirname.js";
 import * as path from "path";
 import { Server as SocketServer } from "socket.io";
 
-const URI = mongoose.connect(`mongodb+srv://mosk:Che7813quct@cluster0.l0ndxeg.mongodb.net/?retryWrites=true&w=majority`)
-URI.then(() => console.log("Corriendo."))
+mongoose.connect(`mongodb://127.0.0.1:27017/articulos`)
 
 
 const app = express();

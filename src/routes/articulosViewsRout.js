@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Articulos from "../dao/filemanagers/controllers/articulos.js";
-const articulosViewApp = new Articulos("articulos");
+const articulosViewApp = new Articulos("articulo");
 const articulosViewsRout = Router();
 
 
