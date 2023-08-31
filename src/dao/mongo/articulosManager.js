@@ -30,7 +30,7 @@ export default class ArticulosManager{
     getArticuloById = async(id) => ArticuloModel.findById(id);
 
     // EDITAR articulo mediante id
-    editArticuloById = async (id, articulo) => {
+    editArticuloById = async (id, {titulo, descripcion, precio, imagen, stock}) => {
         const artic = await ArticuloModel.findById(id);
         if(!artic) throw new Error('ID inexistente');
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ArticulosManager from "../dao/mongo/articulosManager.js";
+import io from "../articulosApp.js";
 
 const articulosMan = new ArticulosManager();
 const articulosRout = Router();
@@ -12,6 +13,7 @@ articulosRout.get("/", async (req, res) => {
         const articulos = await articulosMan.getArticulos();
         console.log("Artículos recuperados:", articulos);
         res.send(articulos);
+        io.emit('articulosList', articulos);
     } catch (e) {
         res.status(502).send({ error: true });
     }
@@ -35,7 +37,7 @@ articulosRout.put("/:id", async (req, res) =>{
         const { id } = req.params;
         const articulo = req.body
         const result = await articulosMan.editArticuloById(id, articulo)
-        res.send({update: true });
+        res.send({update: true, result });
         } catch (e){
             console.log(e);
             res.status(502).send({ error: true });

@@ -1,5 +1,6 @@
 import express from "express";
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import ArticulosManager from "./dao/mongo/articulosManager.js";
 import fs from "fs/promises"; 
 import { engine } from "express-handlebars";
 import articulosRout from "./routes/articulosRout.js";
@@ -10,7 +11,7 @@ import * as path from "path";
 import { Server as SocketServer } from "socket.io";
 
 mongoose.connect(`mongodb://127.0.0.1:27017/articulos`)
-
+const articulosMan = new ArticulosManager();
 
 const app = express();
 app.use(express.static(`${__dirname}/public`));
@@ -54,7 +55,7 @@ io.on("connection", async (socket) => {
     console.log(socket)
 
     // Llamada para listar los articulos--
-    const articulos = await getArticulosFromDatabase();
+    const articulos = await articulosMan.getArticulos();
     socket.emit("articulosList", articulos);
 
     // Llamada para eliminar articulo--
