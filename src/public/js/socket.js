@@ -2,7 +2,7 @@ console.log("Hola front");
 const socket = io();
  
  // se inyectan los articulos mediante inner
- socket.on("articulosList", (articulos) => {
+ socket.on(`articulosList`, articulos => {
     const articlesContainer = document.getElementById("articulos-list");
     articlesContainer.innerHTML = "";
 
@@ -20,7 +20,7 @@ const socket = io();
     });
 });
  
- // Realizamos la llamada y eliminamos el articulo cuyo ID asignado corresponda--
+ // Realizamos la llamada y eliminamos con el ID asignado--
 socket.on("articuloEliminado", (id) => {
     const deletedArticle = document.getElementById(`articulo-${id}`);
     if (deletedArticle) {

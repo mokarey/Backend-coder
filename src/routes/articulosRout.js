@@ -8,12 +8,14 @@ const articulosRout = Router();
 
 // se obtienen todos los articulos--
 // se le agrega un emit--
-articulosRout.get("/", async (req, res) => {
+articulosRout.get("/views", async (req, res) => {
     try {
         const articulos = await articulosMan.getArticulos();
         console.log("Artículos recuperados:", articulos);
+
         res.send(articulos);
-        io.emit('articulosList', articulos);
+        io.emit("articulosList", articulos);
+
     } catch (e) {
         res.status(502).send({ error: true });
     }

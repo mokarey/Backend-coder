@@ -10,7 +10,10 @@ import __dirname from "./dirname.js";
 import * as path from "path";
 import { Server as SocketServer } from "socket.io";
 
-mongoose.connect(`mongodb://127.0.0.1:27017/articulos`)
+const uri = (`mongodb+srv://mosk:yV5iwJolaoIIxOa8@cluster0.l0ndxeg.mongodb.net/`);
+
+await mongoose.connect(uri)
+
 const articulosMan = new ArticulosManager();
 
 const app = express();
